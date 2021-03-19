@@ -3,15 +3,18 @@ import axios from "axios";
 import "../index.css";
 import Person from "./TableData";
 import { Table, Form } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowCircleDown } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const [people, setPeople] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("Fullname");
+  const [sorted, setSorted] = useState("");
 
   useEffect(() => {
     axios
-      .get("https://randomuser.me/api/?results=12")
+      .get("https://randomuser.me/api/?results=20")
       .then((res) => {
         setPeople(res.data.results);
         console.log(res.data.results);
@@ -25,9 +28,10 @@ function App() {
 
   const filterResults = (e) => {
     setFilter(e.target.value);
-  };
 
-  const filtered = people.filter((person) => {
+  }
+
+  let filtered = people.filter((person) => {
     if (filter === "Fullname") {
       const fullname = `${person.name.first} ${person.name.last}`;
       return fullname.toLowerCase().includes(search.toLowerCase());
@@ -39,12 +43,24 @@ function App() {
     }
   });
 
+  const sortOldest = () => {
+    people.sort((a, b) => {
+      if (b.dob.date > a.dob.date) {
+        return -1
+      }
+      if (a.dob.date > b.dob.date) {
+        return 1
+      }
+      return 0;
+    });
+  }
+
   return (
     <div className="employee-app">
       <div className="employee-search">
         <h1 className="employee-text">Search an Employee</h1>
         <form>
-          <Form.Label>Filter Results</Form.Label>
+          <Form.Label>Filter Results By Fullname, Email or Location</Form.Label>
           <Form.Control
             onChange={filterResults}
             as="select"
@@ -55,10 +71,10 @@ function App() {
             <option>Location</option>
           </Form.Control>
           <input
-            className='employ-input'
-            type='text'
+            className="employ-input"
+            type="text"
             onChange={handleChange}
-            placeholder='Search'
+            placeholder="Search"
           />
         </form>
       </div>
@@ -66,14 +82,18 @@ function App() {
         <thead>
           <tr>
             <th></th>
-            <th>Fullname</th>
+            <th>
+              Fullname
+            </th>
             <th>Email</th>
             <th>Location</th>
-            <th>DOB</th>
+            <th>
+              DOB <FontAwesomeIcon onClick={sortOldest} icon={faArrowCircleDown}></FontAwesomeIcon>
+            </th>
           </tr>
         </thead>
         <tbody>
-          {filtered.map((person) => {
+          {filtered && filtered.map((person) => {
             return (
               <Person
                 key={person.cell}
