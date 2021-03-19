@@ -1,12 +1,19 @@
 import React from 'react';
-
 const Person = ({
   email,
+  picture,
+  fullname,
+  location,
+  dateBirth
 }) => {
   return (
-    <div className='person-container'>
-        <p>{email}</p>
-    </div>
+    <tr>
+      <td><img src={picture}></img></td>
+      <td>{fullname}</td>
+      <td>{email}</td>
+      <td>{location}</td>
+      <td>{dateBirth.slice(0,10)}</td>
+    </tr>
   );
 };
 
