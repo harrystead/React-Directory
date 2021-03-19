@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../index.css";
 import Person from "./TableData";
-import { Table } from "react-bootstrap";
+import { Table, Form } from "react-bootstrap";
 
 function App() {
   const [people, setPeople] = useState([]);
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("Fullname");
 
   useEffect(() => {
     axios
@@ -22,18 +23,20 @@ function App() {
     setSearch(e.target.value);
   };
 
-  const filteredEmail = people.filter((person) =>
-    person.email.toLowerCase().includes(search.toLowerCase())
-  );
+  const filterResults = (e) => {
+    setFilter(e.target.value);
+  };
 
-  const filteredFullname = people.filter((person) => {
-    const fullname = `${person.name.first} ${person.name.last}`;
-    return fullname.toLowerCase().includes(search.toLowerCase());
-  });
-
-  const filteredLocation = people.filter((person) => {
-    const location = `${person.location.city}, ${person.location.state}, ${person.location.country}`;
-    return location.toLowerCase().includes(search.toLowerCase());
+  const filtered = people.filter((person) => {
+    if (filter === "Fullname") {
+      const fullname = `${person.name.first} ${person.name.last}`;
+      return fullname.toLowerCase().includes(search.toLowerCase());
+    } else if (filter === "Email") {
+      return person.email.toLowerCase().includes(search.toLowerCase());
+    } else if (filter === "Location") {
+      const location = `${person.location.city}, ${person.location.state}, ${person.location.country}`;
+      return location.toLowerCase().includes(search.toLowerCase());
+    }
   });
 
   return (
@@ -41,11 +44,21 @@ function App() {
       <div className="employee-search">
         <h1 className="employee-text">Search an Employee</h1>
         <form>
+          <Form.Label>Filter Results</Form.Label>
+          <Form.Control
+            onChange={filterResults}
+            as="select"
+            defaultValue="Choose..."
+          >
+            <option defaultValue>Fullname</option>
+            <option>Email</option>
+            <option>Location</option>
+          </Form.Control>
           <input
-            className="employee-input"
-            type="text"
+            className='employ-input'
+            type='text'
             onChange={handleChange}
-            placeholder="Search"
+            placeholder='Search'
           />
         </form>
       </div>
@@ -53,14 +66,14 @@ function App() {
         <thead>
           <tr>
             <th></th>
-            <th>Full Name</th>
+            <th>Fullname</th>
             <th>Email</th>
             <th>Location</th>
             <th>DOB</th>
           </tr>
         </thead>
         <tbody>
-          {filteredFullname.map((person) => {
+          {filtered.map((person) => {
             return (
               <Person
                 key={person.cell}
