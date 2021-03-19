@@ -22,9 +22,19 @@ function App() {
     setSearch(e.target.value);
   };
 
-  //   const filteredPeople = people.filter(person =>
-  //     person.email.toLowerCase().includes(search.toLowerCase())
-  //   );
+  const filteredEmail = people.filter((person) =>
+    person.email.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredFullname = people.filter((person) => {
+    const fullname = `${person.name.first} ${person.name.last}`;
+    return fullname.toLowerCase().includes(search.toLowerCase());
+  });
+
+  const filteredLocation = people.filter((person) => {
+    const location = `${person.location.city}, ${person.location.state}, ${person.location.country}`;
+    return location.toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <div className="employee-app">
@@ -42,7 +52,7 @@ function App() {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Image</th>
+            <th></th>
             <th>Full Name</th>
             <th>Email</th>
             <th>Location</th>
@@ -50,7 +60,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {people.map((person) => {
+          {filteredFullname.map((person) => {
             return (
               <Person
                 key={person.cell}
