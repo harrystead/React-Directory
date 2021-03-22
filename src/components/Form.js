@@ -14,7 +14,8 @@ export default function FormLabel({ setFilter, setSearch}) {
   return (
     <form>
       <Form.Label>Filter Results By Fullname, Email or Location</Form.Label>
-      <Form.Control
+      <Form.Control 
+        className="form-options"
         onChange={filterResults}
         as="select"
         defaultValue="Choose..."
@@ -23,7 +24,7 @@ export default function FormLabel({ setFilter, setSearch}) {
         <option>Email</option>
         <option>Location</option>
       </Form.Control>
-      <input
+      <input 
         className="employ-input"
         type="text"
         onChange={handleChange}

@@ -3,6 +3,7 @@ import axios from "axios";
 import "../index.css";
 import Person from "./TableData";
 import FormLabel from "./Form";
+import Nav from "./Navbar";
 import { Table, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleDown } from "@fortawesome/free-solid-svg-icons";
@@ -70,6 +71,7 @@ else{
 
   return (
     <div className="employee-app">
+      <Nav />
       <div className="employee-search">
         <h1 className="employee-text">Search an Employee</h1>
         <FormLabel
@@ -78,8 +80,8 @@ else{
           setFilter={setFilter}
         />
       </div>
-      <Table striped bordered hover>
-        <thead>
+      <Table hover className="table" >
+        <thead className="table-heading">
           <tr>
             <th></th>
             <th>Fullname</th>
@@ -110,6 +112,7 @@ else{
             })}
         </tbody>
       </Table>
+      <Nav />
     </div>
   );
 }

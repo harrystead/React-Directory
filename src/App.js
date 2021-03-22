@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import './index.css';
 import ApiData from "./components/ApiData"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
