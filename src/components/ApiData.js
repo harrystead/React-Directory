@@ -56,6 +56,17 @@ if(sorted === "Ascending"){
     return 0;
   });
 }
+else{
+  people.sort((a, b) => {
+    if (b.dob.date > a.dob.date) {
+      return 1;
+    }
+    if (a.dob.date > b.dob.date) {
+      return -1;
+    }
+    return 0;
+  });
+}
 
   return (
     <div className="employee-app">
