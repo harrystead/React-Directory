@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
 import Person from "./TableData";
 import FormLabel from "./Form";
 import Nav from "./Navbar";
-import { Table, Form } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -112,7 +112,6 @@ else{
             })}
         </tbody>
       </Table>
-      <Nav />
     </div>
   );
 }
