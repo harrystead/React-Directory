@@ -36,50 +36,67 @@ function App() {
   });
 
   const sortOldest = () => {
-    people.sort((a, b) => {
-      if (b.dob.date > a.dob.date) {
-        return -1
-      }
-      if (a.dob.date > b.dob.date) {
-        return 1
-      }
-      return 0;
-    });
-  }
+    setSorted("Ascending");
+
+    if(sorted === "Ascending"){
+      setSorted("Descending");
+    }
+
+    console.log(sorted)
+  };
+
+if(sorted === "Ascending"){
+  people.sort((a, b) => {
+    if (b.dob.date > a.dob.date) {
+      return -1;
+    }
+    if (a.dob.date > b.dob.date) {
+      return 1;
+    }
+    return 0;
+  });
+}
 
   return (
     <div className="employee-app">
-      <div className="employee-search"> 
+      <div className="employee-search">
         <h1 className="employee-text">Search an Employee</h1>
-        <FormLabel people={people} setSearch={setSearch} setFilter={setFilter}/>
+        <FormLabel
+          people={people}
+          setSearch={setSearch}
+          setFilter={setFilter}
+        />
       </div>
       <Table striped bordered hover>
         <thead>
           <tr>
             <th></th>
-            <th>
-              Fullname
-            </th>
+            <th>Fullname</th>
             <th>Email</th>
             <th>Location</th>
             <th>
-              DOB <FontAwesomeIcon onClick={sortOldest} icon={faArrowCircleDown}></FontAwesomeIcon>
+              DOB{" "}
+              <FontAwesomeIcon
+                onClick={sortOldest}
+                icon={faArrowCircleDown}
+              ></FontAwesomeIcon>
             </th>
           </tr>
         </thead>
         <tbody>
-          {filtered && filtered.map((person) => {
-            return (
-              <Person
-                key={person.cell}
-                picture={person.picture.thumbnail}
-                fullname={`${person.name.first} ${person.name.last}`}
-                email={person.email}
-                location={`${person.location.city}, ${person.location.state}, ${person.location.country}`}
-                dateBirth={person.dob.date}
-              />
-            );
-          })}
+          {filtered &&
+            filtered.map((person) => {
+              return (
+                <Person
+                  key={person.cell}
+                  picture={person.picture.thumbnail}
+                  fullname={`${person.name.first} ${person.name.last}`}
+                  email={person.email}
+                  location={`${person.location.city}, ${person.location.state}, ${person.location.country}`}
+                  dateBirth={person.dob.date}
+                />
+              );
+            })}
         </tbody>
       </Table>
     </div>
