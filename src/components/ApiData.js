@@ -2,15 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../index.css";
 import Person from "./TableData";
+import FormLabel from "./Form";
 import { Table, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleDown } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const [people, setPeople] = useState([]);
+  const [sorted, setSorted] = useState("");
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("Fullname");
-  const [sorted, setSorted] = useState("");
 
   useEffect(() => {
     axios
@@ -21,15 +22,6 @@ function App() {
       })
       .catch((error) => console.log(error));
   }, []);
-
-  const handleChange = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const filterResults = (e) => {
-    setFilter(e.target.value);
-
-  }
 
   let filtered = people.filter((person) => {
     if (filter === "Fullname") {
@@ -57,26 +49,9 @@ function App() {
 
   return (
     <div className="employee-app">
-      <div className="employee-search">
+      <div className="employee-search"> 
         <h1 className="employee-text">Search an Employee</h1>
-        <form>
-          <Form.Label>Filter Results By Fullname, Email or Location</Form.Label>
-          <Form.Control
-            onChange={filterResults}
-            as="select"
-            defaultValue="Choose..."
-          >
-            <option defaultValue>Fullname</option>
-            <option>Email</option>
-            <option>Location</option>
-          </Form.Control>
-          <input
-            className="employ-input"
-            type="text"
-            onChange={handleChange}
-            placeholder="Search"
-          />
-        </form>
+        <FormLabel people={people} setSearch={setSearch} setFilter={setFilter}/>
       </div>
       <Table striped bordered hover>
         <thead>
